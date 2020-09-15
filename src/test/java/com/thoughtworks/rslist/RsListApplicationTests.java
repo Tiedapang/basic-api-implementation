@@ -1,34 +1,13 @@
 package com.thoughtworks.rslist;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
-
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@AutoConfigureMockMvc
 class RsListApplicationTests {
-    @Autowired
-    MockMvc mocMvc ;
+
     @Test
-    public void should_get_one_rs_event() throws Exception {
-        mocMvc.perform(get("/rs/1"))
-                .andExpect(jsonPath("$.eventName",is("猪肉涨价了")))
-                .andExpect(jsonPath("$.keyWord",is("经济")))
-                .andExpect(status().isOk());
-        mocMvc.perform(get("/rs/2"))
-                .andExpect(jsonPath("$.eventName",is("小学生放假了")))
-                .andExpect(jsonPath("$.keyWord",is("社会时事")))
-                .andExpect(status().isOk());
-        mocMvc.perform(get("/rs/1"))
-                .andExpect(jsonPath("$.eventName",is("特朗普辞职了")))
-                .andExpect(jsonPath("$.keyWord",is("政治")))
-                .andExpect(status().isOk());
+    void contextLoads() {
     }
+
 }
