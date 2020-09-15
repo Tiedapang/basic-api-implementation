@@ -28,10 +28,19 @@ class RsControllerTest {
                 .andExpect(jsonPath("$.eventName",is("小学生放假了")))
                 .andExpect(jsonPath("$.keyWord",is("社会时事")))
                 .andExpect(status().isOk());
-        mocMvc.perform(get("/rs/1"))
+        mocMvc.perform(get("/rs/3"))
                 .andExpect(jsonPath("$.eventName",is("特朗普辞职了")))
                 .andExpect(jsonPath("$.keyWord",is("政治")))
                 .andExpect(status().isOk());
     }
-
+    @Test
+    public void should_get_rs_event_between() throws Exception {
+        mocMvc.perform(get("/rs/list?start=1&end=2"))
+                .andExpect(jsonPath("$",hasSize(2)))
+                .andExpect(jsonPath("$[0].eventName",is("猪肉涨价了")))
+                .andExpect(jsonPath("$[0].keyWord",is("经济")))
+                .andExpect(jsonPath("$[1].eventName",is("小学生放假了")))
+                .andExpect(jsonPath("$[1].keyWord",is("社会时事")))
+                .andExpect(status().isOk());
+    }
 }
