@@ -1,4 +1,4 @@
-package com.thoughtworks.rslist;
+package com.thoughtworks.rslist.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,15 +7,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class RsListApplicationTests {
+class RsControllerTest {
     @Autowired
     MockMvc mocMvc ;
+
     @Test
     public void should_get_one_rs_event() throws Exception {
         mocMvc.perform(get("/rs/1"))
@@ -31,4 +33,5 @@ class RsListApplicationTests {
                 .andExpect(jsonPath("$.keyWord",is("政治")))
                 .andExpect(status().isOk());
     }
+
 }
