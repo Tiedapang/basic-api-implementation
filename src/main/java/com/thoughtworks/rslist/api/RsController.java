@@ -26,7 +26,7 @@ public class RsController {
     return rsList.get(index - 1);
   }
   @GetMapping("/rs/list")
-  public List<RsEvent> getList(@RequestParam Integer start,@RequestParam Integer end){
+  public List<RsEvent> getList(@RequestParam(required = false) Integer start,@RequestParam(required = false) Integer end){
     if(start == null || end == null){
       return rsList;
     }
@@ -38,4 +38,10 @@ public class RsController {
     RsEvent event = objectMapper.readValue(rsEvent, RsEvent.class);
     rsList.add(event);
   }
+
+  @PostMapping("/rs/deleteEvent")
+  public void deleteRsEvent(@RequestBody String  deleteID) throws JsonProcessingException {
+    rsList.remove(Integer.parseInt(deleteID)-1);
+  }
+
 }
