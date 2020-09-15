@@ -54,5 +54,29 @@ class RsControllerTest {
         String jsonString = objectMapper.writeValueAsString(rsEvent);
         mocMvc.perform(post("/rs/addEvent").content(jsonString).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+        mocMvc.perform(get("/rs/list"))
+                .andExpect(jsonPath("$",hasSize(4)))
+                .andExpect(jsonPath("$[0].eventName",is("猪肉涨价了")))
+                .andExpect(jsonPath("$[0].keyWord",is("经济")))
+                .andExpect(jsonPath("$[1].eventName",is("小学生放假了")))
+                .andExpect(jsonPath("$[1].keyWord",is("社会时事")))
+                .andExpect(jsonPath("$[2].eventName",is("特朗普辞职了")))
+                .andExpect(jsonPath("$[2].keyWord",is("政治")))
+                .andExpect(jsonPath("$[3].eventName",is("股市跌了")))
+                .andExpect(jsonPath("$[3].keyWord",is("财经")))
+                .andExpect(status().isOk());
+    }
+    @Test
+    public void should_delete_rs_event_by_id() throws Exception {
+        String deleteId = "1" ;
+        mocMvc.perform(post("/rs/deleteEvent").content(deleteId))
+                .andExpect(status().isOk());
+        mocMvc.perform(get("/rs/list"))
+                .andExpect(jsonPath("$",hasSize(2)))
+                .andExpect(jsonPath("$[0].eventName",is("小学生放假了")))
+                .andExpect(jsonPath("$[0].keyWord",is("社会时事")))
+                .andExpect(jsonPath("$[1].eventName",is("特朗普辞职了")))
+                .andExpect(jsonPath("$[1].keyWord",is("政治")))
+                .andExpect(status().isOk());
     }
 }
