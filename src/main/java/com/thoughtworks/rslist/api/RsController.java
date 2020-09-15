@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class RsController {
@@ -42,6 +43,16 @@ public class RsController {
   @PostMapping("/rs/deleteEvent")
   public void deleteRsEvent(@RequestBody String  deleteID) throws JsonProcessingException {
     rsList.remove(Integer.parseInt(deleteID)-1);
+  }
+
+  @PostMapping("/rs/updateEvent")
+  public void updateRsEvent(@RequestBody Map params) throws JsonProcessingException {
+    int id = (int) params.get("id");
+    String eventName = (String) params.get("eventName");
+    String keyWord = (String) params.get("keyWord");
+    rsList.get(id-1).setEventName(eventName);
+    rsList.get(id-1).setKeyWord(keyWord);
+
   }
 
 }
