@@ -98,4 +98,22 @@ class RsControllerTest {
                 .andExpect(jsonPath("$[2].keyWord",is("政治")))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    public void should_update_eventList_by_only_change_eventName() throws Exception {
+        JSONObject jsonString = new JSONObject();
+        jsonString.put("id",1);
+        jsonString.put("eventName","这是修改后的名称");
+        mocMvc.perform(post("/rs/updateEvent").content(jsonString.toString()).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+        mocMvc.perform(get("/rs/list"))
+                .andExpect(jsonPath("$",hasSize(3)))
+                .andExpect(jsonPath("$[0].eventName",is("这是修改后的名称")))
+                .andExpect(jsonPath("$[0].keyWord",is("经济")))
+                .andExpect(jsonPath("$[1].eventName",is("小学生放假了")))
+                .andExpect(jsonPath("$[1].keyWord",is("社会时事")))
+                .andExpect(jsonPath("$[2].eventName",is("特朗普辞职了")))
+                .andExpect(jsonPath("$[2].keyWord",is("政治")))
+                .andExpect(status().isOk());
+    }
 }

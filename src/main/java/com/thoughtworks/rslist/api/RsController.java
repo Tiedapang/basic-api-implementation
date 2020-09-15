@@ -49,10 +49,13 @@ public class RsController {
   public void updateRsEvent(@RequestBody Map params) throws JsonProcessingException {
     int id = (int) params.get("id");
     String eventName = (String) params.get("eventName");
+    if(eventName!=null){
+      rsList.get(id-1).setEventName(eventName);
+    }
     String keyWord = (String) params.get("keyWord");
-    rsList.get(id-1).setEventName(eventName);
-    rsList.get(id-1).setKeyWord(keyWord);
-
+    if(keyWord!=null){
+      rsList.get(id-1).setKeyWord(keyWord);
+    }
   }
 
 }
