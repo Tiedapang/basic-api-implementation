@@ -59,6 +59,7 @@ class RsControllerTest {
                 .andExpect(jsonPath("$[1].keyWord",is("社会时事")))
                 .andExpect(jsonPath("$[1]",not(hasKey("user"))))
                 .andExpect(status().isOk());
+
     }
     @Order(3)
     @Test
