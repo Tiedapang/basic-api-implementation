@@ -139,5 +139,11 @@ class RsControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("error",is("invalid index")));
     }
+    @Test
+    public void should_throw_rs_event_invalid_request_param_exception() throws Exception {
+        mocMvc.perform(get("/rs/list?start=-1&end=2"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("error",is("invalid request param")));
+    }
 
 }

@@ -39,10 +39,10 @@ public class RsController {
   @GetMapping("/rs/list")
   public ResponseEntity getList(@RequestParam(required = false) Integer start,@RequestParam(required = false) Integer end) throws JsonProcessingException {
     if(start == null || end == null){
-
       return ResponseEntity.ok(rsList);
+    }else if(start < 0 || end>rsList.size()-1){
+      throw new RsEventNotValidException("invalid request param");
     }
-
     return ResponseEntity.ok(rsList.subList(start - 1,end));
   }
   @PostMapping("/rs/addEvent")
