@@ -32,30 +32,30 @@ public class RsController {
   @GetMapping("/rs/{index}")
   public ResponseEntity getOneRSEvent(@PathVariable int index) throws JsonProcessingException {
 
-    ObjectMapper objectMapper = getObjectMapperWithFilter();
-    String rsEventString = objectMapper.writer().withDefaultPrettyPrinter().writeValueAsString(rsList.get(index - 1));
-    return ResponseEntity.ok(rsEventString);
+//    ObjectMapper objectMapper = getObjectMapperWithFilter();
+//    String rsEventString = objectMapper.writer().withDefaultPrettyPrinter().writeValueAsString(rsList.get(index - 1));
+    return ResponseEntity.ok(rsList.get(index - 1));
   }
 
-  private ObjectMapper getObjectMapperWithFilter() {
-    SimpleFilterProvider filterProvider = new SimpleFilterProvider();
-    filterProvider.addFilter("userFilter",   //添加过滤器名称
-            SimpleBeanPropertyFilter.serializeAllExcept("user"));
-    ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.setFilterProvider(filterProvider);
-    return objectMapper;
-  }
+//  private ObjectMapper getObjectMapperWithFilter() {
+//    SimpleFilterProvider filterProvider = new SimpleFilterProvider();
+//    filterProvider.addFilter("userFilter",   //添加过滤器名称
+//            SimpleBeanPropertyFilter.serializeAllExcept("user"));
+//    ObjectMapper objectMapper = new ObjectMapper();
+//    objectMapper.setFilterProvider(filterProvider);
+//    return objectMapper;
+//  }
 
   @GetMapping("/rs/list")
   public ResponseEntity getList(@RequestParam(required = false) Integer start,@RequestParam(required = false) Integer end) throws JsonProcessingException {
-    ObjectMapper objectMapper = getObjectMapperWithFilter();
+//    ObjectMapper objectMapper = getObjectMapperWithFilter();
     if(start == null || end == null){
 
-      String rsEventListString = objectMapper.writer().withDefaultPrettyPrinter().writeValueAsString(rsList);
-      return ResponseEntity.ok(rsEventListString);
+//      String rsEventListString = objectMapper.writer().withDefaultPrettyPrinter().writeValueAsString(rsList);
+      return ResponseEntity.ok(rsList);
     }
-    String rsEventListString = objectMapper.writer().withDefaultPrettyPrinter().writeValueAsString(rsList.subList(start - 1,end));
-    return ResponseEntity.ok(rsEventListString);
+//    String rsEventListString = objectMapper.writer().withDefaultPrettyPrinter().writeValueAsString(rsList.subList(start - 1,end));
+    return ResponseEntity.ok(rsList.subList(start - 1,end));
   }
   @PostMapping("/rs/addEvent")
   public ResponseEntity addRsEvent(@RequestBody @Valid RsEvent  rsEvent) throws JsonProcessingException {

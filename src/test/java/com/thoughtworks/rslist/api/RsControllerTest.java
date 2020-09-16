@@ -70,7 +70,7 @@ class RsControllerTest {
         String jsonString = objectMapper.writeValueAsString(rsEvent);
         mocMvc.perform(post("/rs/addEvent").content(jsonString).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("index","4"));
+                .andExpect(header().string("index","3"));
         mocMvc.perform(get("/rs/list"))
                 .andExpect(jsonPath("$",hasSize(4)))
                 .andExpect(jsonPath("$[0].eventName",is("猪肉涨价了")))
