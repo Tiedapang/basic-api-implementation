@@ -1,7 +1,11 @@
 package com.thoughtworks.rslist.domain;
 
-import javax.validation.Valid;
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.Valid;
+@JsonFilter("userFilter")
 public class RsEvent {
     private String eventName;
     private String keyWord;
@@ -30,6 +34,7 @@ public class RsEvent {
     public String getKeyWord() {
         return keyWord;
     }
+
 
     public User getUser() {
         return user;
