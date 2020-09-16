@@ -1,12 +1,10 @@
 package com.thoughtworks.rslist.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.thoughtworks.rslist.domain.RsEvent;
 import com.thoughtworks.rslist.domain.User;
-import org.springframework.http.HttpStatus;
+import com.thoughtworks.rslist.exception.Error;
+import com.thoughtworks.rslist.exception.RsEventNotValidException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,31 +29,21 @@ public class RsController {
 
   @GetMapping("/rs/{index}")
   public ResponseEntity getOneRSEvent(@PathVariable int index) throws JsonProcessingException {
-
-    ObjectMapper objectMapper = getObjectMapperWithFilter();
-    String rsEventString = objectMapper.writer().withDefaultPrettyPrinter().writeValueAsString(rsList.get(index - 1));
-    return ResponseEntity.ok(rsEventString);
+    if(index <= 0 || index>rsList.size()-1){
+      throw new RsEventNotValidException("invalid index");
+    }
+    return ResponseEntity.ok(rsList.get(index - 1));
   }
 
-  private ObjectMapper getObjectMapperWithFilter() {
-    SimpleFilterProvider filterProvider = new SimpleFilterProvider();
-    filterProvider.addFilter("userFilter",   //添加过滤器名称
-            SimpleBeanPropertyFilter.serializeAllExcept("user"));
-    ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.setFilterProvider(filterProvider);
-    return objectMapper;
-  }
 
   @GetMapping("/rs/list")
   public ResponseEntity getList(@RequestParam(required = false) Integer start,@RequestParam(required = false) Integer end) throws JsonProcessingException {
-    ObjectMapper objectMapper = getObjectMapperWithFilter();
     if(start == null || end == null){
 
-      String rsEventListString = objectMapper.writer().withDefaultPrettyPrinter().writeValueAsString(rsList);
-      return ResponseEntity.ok(rsEventListString);
+      return ResponseEntity.ok(rsList);
     }
-    String rsEventListString = objectMapper.writer().withDefaultPrettyPrinter().writeValueAsString(rsList.subList(start - 1,end));
-    return ResponseEntity.ok(rsEventListString);
+
+    return ResponseEntity.ok(rsList.subList(start - 1,end));
   }
   @PostMapping("/rs/addEvent")
   public ResponseEntity addRsEvent(@RequestBody @Valid RsEvent  rsEvent) throws JsonProcessingException {
@@ -96,6 +84,12 @@ public class RsController {
   @GetMapping("/get/users")
   public ResponseEntity getAllUsers() throws JsonProcessingException {
     return ResponseEntity.ok(userController.userList);
+  }
+  @ExceptionHandler(RsEventNotValidException.class)
+  public ResponseEntity rsExceptionHandler(RsEventNotValidException e){
+    Error error = new Error();
+    error.setError(e.getMessage());
+    return ResponseEntity.badRequest().body(error);
   }
 
 }

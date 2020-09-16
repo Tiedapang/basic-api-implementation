@@ -1,8 +1,6 @@
 package com.thoughtworks.rslist.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.thoughtworks.rslist.domain.RsEvent;
 import com.thoughtworks.rslist.domain.User;
 import org.json.JSONObject;
@@ -17,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -70,7 +67,7 @@ class RsControllerTest {
         String jsonString = objectMapper.writeValueAsString(rsEvent);
         mocMvc.perform(post("/rs/addEvent").content(jsonString).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("index","4"));
+                .andExpect(header().string("index","3"));
         mocMvc.perform(get("/rs/list"))
                 .andExpect(jsonPath("$",hasSize(4)))
                 .andExpect(jsonPath("$[0].eventName",is("猪肉涨价了")))
@@ -136,6 +133,11 @@ class RsControllerTest {
                 .andExpect(jsonPath("$[2].keyWord",is("政治")))
                 .andExpect(status().isOk());
     }
-
+    @Test
+    public void should_throw_rs_event_not_valid_exception() throws Exception {
+        mocMvc.perform(get("/rs/0"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("error",is("invalid index")));
+    }
 
 }
