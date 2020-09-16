@@ -26,4 +26,6 @@ public class UserController {
     public ResponseEntity getUserList(){
         return ResponseEntity.ok(userList);
     }
+
+
 }

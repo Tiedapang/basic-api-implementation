@@ -93,5 +93,9 @@ public class RsController {
     }
     return ResponseEntity.created(null).header("index",String.valueOf(id)).build();
   }
+  @GetMapping("/get/users")
+  public ResponseEntity getAllUsers() throws JsonProcessingException {
+    return ResponseEntity.ok(userController.userList);
+  }
 
 }

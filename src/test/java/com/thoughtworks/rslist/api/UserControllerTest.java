@@ -39,11 +39,11 @@ class UserControllerTest {
                 .andExpect(header().string("index","0"));
         mockMvc.perform(get("/user"))
                 .andExpect(jsonPath("$",hasSize(1)))
-                .andExpect(jsonPath("$[0].name",is("thj")))
-                .andExpect(jsonPath("$[0].gender",is("female")))
-                .andExpect(jsonPath("$[0].age",is(20)))
-                .andExpect(jsonPath("$[0].email",is("abc@163.com")))
-                .andExpect(jsonPath("$[0].phone",is("1234567891")))
+                .andExpect(jsonPath("$[0].user_name",is("thj")))
+                .andExpect(jsonPath("$[0].user_gender",is("female")))
+                .andExpect(jsonPath("$[0].user_age",is(20)))
+                .andExpect(jsonPath("$[0].user_email",is("abc@163.com")))
+                .andExpect(jsonPath("$[0].user_phone",is("1234567891")))
                 .andExpect(status().isOk());
     }
     @Order(2)
