@@ -53,7 +53,7 @@ public class RsController {
     return userController.userList.contains(user);
   }
 
-  @PostMapping("/rs/deleteEvent")
+  @DeleteMapping("/rs/event")
   public void deleteRsEvent(@RequestBody String  deleteID) throws JsonProcessingException {
     rsList.remove(Integer.parseInt(deleteID)-1);
   }

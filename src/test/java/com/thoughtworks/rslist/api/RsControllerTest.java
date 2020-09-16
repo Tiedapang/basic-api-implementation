@@ -4,7 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.rslist.domain.RsEvent;
 import com.thoughtworks.rslist.domain.User;
 import org.json.JSONObject;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,16 +17,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class RsControllerTest {
     @Autowired
     MockMvc mocMvc ;
-
+    @Order(1)
     @Test
     public void should_get_one_rs_event() throws Exception {
         mocMvc.perform(get("/rs/1"))
@@ -39,6 +42,7 @@ class RsControllerTest {
                 .andExpect(jsonPath("$.keyWord",is("政治")))
                 .andExpect(status().isOk());
     }
+    @Order(2)
     @Test
     public void should_get_rs_event_between() throws Exception {
         mocMvc.perform(get("/rs/list?start=1&end=2"))
@@ -49,6 +53,7 @@ class RsControllerTest {
                 .andExpect(jsonPath("$[1].keyWord",is("社会时事")))
                 .andExpect(status().isOk());
     }
+    @Order(3)
     @Test
     public void should_add_rs_event() throws Exception {
         User user = new User("xiaowang","female",19,"a@thoughtworks.com","18888888888");
@@ -69,10 +74,11 @@ class RsControllerTest {
                 .andExpect(jsonPath("$[3].keyWord",is("财经")))
                 .andExpect(status().isOk());
     }
+    @Order(4)
     @Test
     public void should_delete_rs_event_by_id() throws Exception {
         String deleteId = "1" ;
-        mocMvc.perform(post("/rs/deleteEvent").content(deleteId))
+        mocMvc.perform(delete("/rs/event").content(deleteId))
                 .andExpect(status().isOk());
         mocMvc.perform(get("/rs/list"))
                 .andExpect(jsonPath("$",hasSize(2)))
@@ -82,6 +88,7 @@ class RsControllerTest {
                 .andExpect(jsonPath("$[1].keyWord",is("政治")))
                 .andExpect(status().isOk());
     }
+    @Order(5)
     @Test
     public void should_update_eventList_by_conditions() throws Exception {
         JSONObject jsonString = new JSONObject();
@@ -100,7 +107,7 @@ class RsControllerTest {
                 .andExpect(jsonPath("$[2].keyWord",is("政治")))
                 .andExpect(status().isOk());
     }
-
+    @Order(6)
     @Test
     public void should_update_eventList_by_only_change_eventName() throws Exception {
         JSONObject jsonString = new JSONObject();
