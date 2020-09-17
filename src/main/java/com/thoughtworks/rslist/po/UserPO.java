@@ -6,8 +6,9 @@ import javax.persistence.*;
 
 
 
-@Table(name = "user")
+
 @Entity
+@Table(name = "user")
 public class UserPO {
 
     @GeneratedValue()

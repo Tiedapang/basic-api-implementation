@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.thoughtworks.rslist.domain.User;
 import com.thoughtworks.rslist.exception.Error;
 import com.thoughtworks.rslist.exception.RsEventNotValidException;
+import com.thoughtworks.rslist.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,8 @@ import java.util.List;
 @RestController
 public class UserController {
     List<User> userList = new ArrayList<User>();
+    @Autowired
+    UserRepository userRepository;
     @PostMapping("/user")
     public ResponseEntity addUser(@RequestBody @Valid User user) throws JsonProcessingException {
         if(!userList.contains(user)){
@@ -33,6 +37,5 @@ public class UserController {
         error.setError("invalid user");
         return ResponseEntity.badRequest().body(error);
     }
-
 
 }
