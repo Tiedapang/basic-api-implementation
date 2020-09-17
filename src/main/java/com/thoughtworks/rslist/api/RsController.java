@@ -5,6 +5,8 @@ import com.thoughtworks.rslist.domain.RsEvent;
 import com.thoughtworks.rslist.domain.User;
 import com.thoughtworks.rslist.exception.Error;
 import com.thoughtworks.rslist.exception.RsEventNotValidException;
+
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @RestController
 public class RsController {
   private List<RsEvent> rsList =initRsEventList();
+  private Logger logger = LoggerFactory.getLogger(RsController.class);
   UserController userController = new UserController();
   private List<RsEvent> initRsEventList() {
     User user = new User("xiaowang","female",19,"a@thoughtworks.com","18888888888");
@@ -94,6 +100,7 @@ public class RsController {
     }else{
       errorMsg = e.getMessage();
     }
+    logger.error(errorMsg);
     Error error = new Error();
     error.setError(errorMsg);
     return ResponseEntity.badRequest().body(error);
