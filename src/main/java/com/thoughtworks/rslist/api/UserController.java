@@ -44,6 +44,10 @@ public class UserController {
         userRepository.save(userPO);
         return ResponseEntity.ok(userPO);
     }
-
+    @GetMapping("/user/{userID}")
+    public ResponseEntity getUserByIndex(@PathVariable int userID){
+        Optional<UserPO> userPO = userRepository.findById(userID);
+        return ResponseEntity.ok(userPO);
+    }
 
 }
