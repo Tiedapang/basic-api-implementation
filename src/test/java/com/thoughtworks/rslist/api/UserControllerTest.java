@@ -108,6 +108,13 @@ class UserControllerTest {
         assertEquals("abc@163.com",allUsers.get(0).getEmail());
         assertEquals("18888888888",allUsers.get(0).getPhone());
     }
+    @Order(7)
+    @Test
+    public void should_get_user_by_id_from_dataBase() throws Exception {
+        int userID = 6;
+        mockMvc.perform(get("/user/"+userID)) .andExpect(status().isOk());
+        Optional<UserPO> userPO = userRepository.findById(userID);
 
+    }
 
 }
