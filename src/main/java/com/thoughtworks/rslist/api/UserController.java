@@ -40,10 +40,27 @@ public class UserController {
         error.setError("invalid user");
         return ResponseEntity.badRequest().body(error);
     }
+    @PostMapping("/user")
+    public ResponseEntity addUserOnDataBase(@RequestBody @Valid User user) throws JsonProcessingException {
+        UserPO userPO = new UserPO();
+        userPO.setName(user.getName());
+        userPO.setAge(user.getAge());
+        userPO.setGender(user.getGender());
+        userPO.setEmail(user.getEmail());
+        userPO.setPhone(user.getPhone());
+        userPO.setVoteNmu(user.getVoteNmu());
+        userRepository.save(userPO);
+        return ResponseEntity.ok(userPO);
+    }
     @GetMapping("/user/{userID}")
     public ResponseEntity getUserByIndex(@PathVariable int userID){
         Optional<UserPO> userPO = userRepository.findById(userID);
         return ResponseEntity.ok(userPO);
+    }
+    @DeleteMapping("/user")
+    public ResponseEntity deleteRsEvent(@RequestBody String  deleteID) throws JsonProcessingException {
+        userRepository.deleteById(Integer.parseInt(deleteID));
+        return ResponseEntity.ok().build();
     }
 
 

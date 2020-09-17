@@ -23,8 +23,7 @@ import java.util.Optional;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -113,6 +112,14 @@ class UserControllerTest {
     public void should_get_user_by_id_from_dataBase() throws Exception {
         int userID = 6;
         mockMvc.perform(get("/user/"+userID)) .andExpect(status().isOk());
+
+    }
+    @Order(8)
+    @Test
+    public void should_delete_user_by_id() throws Exception {
+        int deleteId = 6;
+        mockMvc.perform(delete("/user").content(String.valueOf(deleteId)))
+                .andExpect(status().isOk());
 
     }
 }
