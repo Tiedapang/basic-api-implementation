@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.thoughtworks.rslist.domain.User;
 import com.thoughtworks.rslist.exception.Error;
 import com.thoughtworks.rslist.exception.RsEventNotValidException;
+import com.thoughtworks.rslist.po.UserPO;
 import com.thoughtworks.rslist.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @RestController
 public class UserController {
     List<User> userList = new ArrayList<User>();
@@ -37,5 +40,11 @@ public class UserController {
         error.setError("invalid user");
         return ResponseEntity.badRequest().body(error);
     }
+    @GetMapping("/user/{userID}")
+    public ResponseEntity getUserByIndex(@PathVariable int userID){
+        Optional<UserPO> userPO = userRepository.findById(userID);
+        return ResponseEntity.ok(userPO);
+    }
+
 
 }

@@ -18,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 
+import java.util.Optional;
+
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -106,5 +108,11 @@ class UserControllerTest {
         UserPO save = userRepository.save(user);
         assertEquals(user,save);
     }
+    @Order(8)
+    @Test
+    public void should_get_user_by_id_from_dataBase() throws Exception {
+        int userID = 6;
+        mockMvc.perform(get("/user/"+userID)) .andExpect(status().isOk());
 
+    }
 }
