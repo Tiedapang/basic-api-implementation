@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,12 @@ import java.util.Map;
 public class RsController {
   private List<RsEvent> rsList =initRsEventList();
   UserController userController = new UserController();
-  private List<RsEvent> initRsEventList() {
+
+  public RsController() {
+  }
+
+  private List<RsEvent> initRsEventList()  {
+
     User user = new User("xiaowang","female",19,"a@thoughtworks.com","18888888888");
     List<RsEvent> rsEventList = new ArrayList<>();
     rsEventList.add(new RsEvent("猪肉涨价了","经济",user));
