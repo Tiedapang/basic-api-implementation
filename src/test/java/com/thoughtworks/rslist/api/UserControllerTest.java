@@ -116,5 +116,13 @@ class UserControllerTest {
         Optional<UserPO> userPO = userRepository.findById(userID);
 
     }
+    @Order(8)
+    @Test
+    public void should_delete_user_by_id() throws Exception {
+        int deleteId = 6;
+        mockMvc.perform(delete("/user").content(String.valueOf(deleteId)))
+                .andExpect(status().isOk());
+
+    }
 
 }

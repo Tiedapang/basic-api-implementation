@@ -49,5 +49,10 @@ public class UserController {
         Optional<UserPO> userPO = userRepository.findById(userID);
         return ResponseEntity.ok(userPO);
     }
+    @DeleteMapping("/user")
+    public ResponseEntity deleteRsEvent(@RequestBody String  deleteID) throws JsonProcessingException {
+        userRepository.deleteById(Integer.parseInt(deleteID));
+        return ResponseEntity.ok().build();
+    }
 
 }
