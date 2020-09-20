@@ -1,28 +1,5 @@
 package com.thoughtworks.rslist.api;
 
-<<<<<<< HEAD
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-@SpringBootTest
-@AutoConfigureMockMvc
-class RsControllerTest {
-    @Autowired
-    MockMvc mocMvc ;
-    @Test
-    public void should_get_rs_event_list() throws Exception{
-        mocMvc.perform(get("/rs/list")).andExpect(content().string("[第一条事件, 第二条事件, 第三条事件]")).andExpect(status().isOk());
-    }
-
-
-=======
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.rslist.domain.RsEvent;
 import com.thoughtworks.rslist.domain.User;
@@ -102,7 +79,7 @@ class RsControllerTest {
         UserPO saveUser = userRepository.save(UserPO.builder().email("aaa@b.com").age(25).gender("female")
                 .phone("18888888888").name("thj").voteNmu(10).build());
         String jsonString = "{\"eventName\":\"updateDataBase\",\"keyWord\":\"opera\",\"userId\": " + saveUser.getId() + "}";
-        mocMvc.perform(post("/rs/event").content(jsonString).contentType(MediaType.APPLICATION_JSON))
+        mocMvc.perform(post("/rs").content(jsonString).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
         List<RsEventPO> all = rsEventRepository.findAll();
         assertNotNull(all);
@@ -113,14 +90,14 @@ class RsControllerTest {
     @Test
     public void should_add_rs_event_when_user_not_exist() throws Exception {
         String jsonString = "{\"eventName\":\"updateDataBase\",\"opera\":\"经济\",\"userId\": 300}";
-        mocMvc.perform(post("/rs/event").content(jsonString).contentType(MediaType.APPLICATION_JSON))
+        mocMvc.perform(post("/rs").content(jsonString).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
     @Order(4)
     @Test
     public void should_delete_rs_event_by_id() throws Exception {
         int deleteId = rsEventPO1.getId();
-        mocMvc.perform(delete("/rs/event").content(String.valueOf(deleteId)))
+        mocMvc.perform(delete("/rs").content(String.valueOf(deleteId)))
                 .andExpect(status().isOk());
         Optional<RsEventPO> newRsEvent = rsEventRepository.findById(deleteId);
         assertEquals(false, newRsEvent.isPresent());
@@ -162,5 +139,4 @@ class RsControllerTest {
 
     }
 
->>>>>>> spring-bean
 }

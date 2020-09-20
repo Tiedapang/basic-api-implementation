@@ -60,7 +60,7 @@ class VoteControllerTest {
 
     @Test
     public void should_get_votes_from_startTime_to_endTime() throws Exception {
-        mockMvc.perform(get("/findVote")
+        mockMvc.perform(get("/vote")
                 .param("startTime", "2020-01-01 00:00:00")
                 .param("endTime","2020-10-10 00:00:00"))
                 .andExpect(status().isOk())

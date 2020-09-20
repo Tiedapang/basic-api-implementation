@@ -36,7 +36,7 @@ public class VoteController {
     @Autowired
     VoteRepository voteRepository;
 
-    @GetMapping("/findVote")
+    @GetMapping("/vote")
     public ResponseEntity<List<Vote>> findVoteByStartTimeAndEndTime(@RequestParam String startTime, @RequestParam String endTime) {
         LocalDateTime startTimeLocal = forMateStringToLcalTimeDate(startTime);
         LocalDateTime endTimeLocal = forMateStringToLcalTimeDate(endTime);

@@ -1,9 +1,5 @@
 package com.thoughtworks.rslist.api;
 
-<<<<<<< HEAD
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-=======
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.rslist.domain.RsEvent;
@@ -11,7 +7,6 @@ import com.thoughtworks.rslist.domain.User;
 import com.thoughtworks.rslist.domain.Vote;
 import com.thoughtworks.rslist.exception.Error;
 import com.thoughtworks.rslist.exception.RsEventNotValidException;
->>>>>>> spring-bean
 
 
 import com.thoughtworks.rslist.po.RsEventPO;
@@ -36,13 +31,6 @@ import org.slf4j.LoggerFactory;
 
 @RestController
 public class RsController {
-<<<<<<< HEAD
-  private List<String> rsList = Arrays.asList("第一条事件", "第二条事件", "第三条事件");
-  @GetMapping("/rs/list")
-  public String getList(){
-    return rsList.toString();
-  }
-=======
 
   private Logger logger = LoggerFactory.getLogger(RsController.class);
   UserController userController = new UserController();
@@ -82,7 +70,7 @@ public class RsController {
     return ResponseEntity.ok(rsEvents);
   }
 
-  @PostMapping("/rs/event")
+  @PostMapping("/rs")
   public ResponseEntity addRsEvent(@RequestBody @Valid RsEvent  rsEvent) throws JsonProcessingException {
     Optional<UserPO> userPO = userRepository.findById(rsEvent.getUserId());
     if(userPO.isPresent()){
@@ -97,7 +85,7 @@ public class RsController {
 
 
 
-  @DeleteMapping("/rs/event")
+  @DeleteMapping("/rs")
   public ResponseEntity deleteRsEvent(@RequestBody String  deleteID) throws JsonProcessingException {
     rsEventRepository.deleteById(Integer.parseInt(deleteID));
     return ResponseEntity.ok().build();
@@ -158,5 +146,4 @@ public class RsController {
   }
 
 
->>>>>>> spring-bean
 }
